@@ -1,0 +1,65 @@
+import pyautogui
+import time
+import keyboard
+import random
+
+stop_flag = False
+
+def stop():
+    global stop_flag
+    stop_flag = True
+    print("\n[!] Quit signal received. Exiting immediately...")
+
+def safe_click(x, y, jitter=5):
+    """Click with slight randomness in position"""
+    if stop_flag:
+        return
+    offset_x = random.randint(-jitter, jitter)
+    offset_y = random.randint(-jitter, jitter)
+    pyautogui.click(x + offset_x, y + offset_y)
+
+def refresh():
+    if stop_flag:
+        return
+    print("Refreshing dungeon")
+    safe_click(550, 155)
+    time.sleep(random.uniform(0.3, 0.6))
+
+def apply(x, y):
+    if stop_flag:
+        return
+    print(f"Applying to group at ({x},{y})")
+    safe_click(x, y)
+    time.sleep(random.uniform(0.3, 0.6))
+    safe_click(500, 530)
+    time.sleep(random.uniform(0.2, 0.4))
+    safe_click(900, 310)
+    time.sleep(random.uniform(0.5, 1.0))
+
+def main():
+    global stop_flag
+    print("Starting auto-apply script. Press 'q' to quit immediately.")
+    keyboard.add_hotkey('q', stop)
+
+    while not stop_flag:
+        refresh()
+        apply(500, 220)
+        apply(500, 250)
+        apply(500, 290)
+        apply(500, 330)
+        apply(500, 365)
+        safe_click(900, 310)
+        # Random delay between cycles (e.g. 4 to 7 seconds)
+        wait_time = random.uniform(4.0, 7.0)
+        for _ in range(int(wait_time / 0.5)):
+            if stop_flag:
+                break
+            time.sleep(0.5)
+
+    print("Script stopped.")
+
+if __name__ == "__main__":
+    print("Switch to WoW window in 5 seconds...")
+    time.sleep(5)
+    main()
+
