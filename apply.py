@@ -25,6 +25,13 @@ def refresh():
     safe_click(550, 155)
     time.sleep(random.uniform(0.3, 0.6))
 
+def cancel():
+    safe_click(530, 220)
+    safe_click(530, 250)
+    safe_click(530, 290)
+    safe_click(530, 330)
+    safe_click(530, 365)
+
 def apply(x, y):
     if stop_flag:
         return
@@ -42,6 +49,7 @@ def main():
     keyboard.add_hotkey('q', stop)
 
     while not stop_flag:
+        cancel()
         refresh()
         apply(500, 220)
         apply(500, 250)
