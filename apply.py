@@ -18,11 +18,11 @@ def stop():
     stop_flag = True
     print("\n[!] Quit signal received. Exiting immediately...")
 
-def safe_click(x, y, jitter=10):
+def safe_click(x, y, jitter=5):
     """Click with slight randomness in position"""
     if stop_flag:
         return
-    human_like_move(x,y,duration_range=(0.03, 0.06),jitter=jitter)
+    human_like_move(x,y,duration_range=(0.05, 0.1),jitter=jitter)
     pyautogui.click(x,y)
 
 def refresh():
@@ -43,7 +43,7 @@ def apply(x, y):
     if stop_flag:
         return
     print(f"Applying to group at ({x},{y})")
-    safe_click(x, y, 20)
+    safe_click(x, y, 15)
     time.sleep(random.uniform(0.3, 0.6))
     safe_click(500, 530)
     time.sleep(random.uniform(0.2, 0.4))
