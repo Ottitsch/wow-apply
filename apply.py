@@ -2,21 +2,28 @@ import pyautogui
 import time
 import keyboard
 import random
+import math
 
 stop_flag = False
+
+def human_like_move(x, y, duration_range, jitter):
+    """Use a single pyautogui.moveTo with easing to simulate human-like motion"""
+    end_x = x + random.randint(-jitter, jitter)
+    end_y = y + random.randint(-jitter, jitter)
+    duration = random.uniform(*duration_range)
+    pyautogui.moveTo(end_x, end_y, duration=duration, tween=pyautogui.easeInOutQuad)
 
 def stop():
     global stop_flag
     stop_flag = True
     print("\n[!] Quit signal received. Exiting immediately...")
 
-def safe_click(x, y, jitter=5):
+def safe_click(x, y, jitter=10):
     """Click with slight randomness in position"""
     if stop_flag:
         return
-    offset_x = random.randint(-jitter, jitter)
-    offset_y = random.randint(-jitter, jitter)
-    pyautogui.click(x + offset_x, y + offset_y)
+    human_like_move(x,y,duration_range=(0.03, 0.06),jitter=jitter)
+    pyautogui.click(x,y)
 
 def refresh():
     if stop_flag:
@@ -36,7 +43,7 @@ def apply(x, y):
     if stop_flag:
         return
     print(f"Applying to group at ({x},{y})")
-    safe_click(x, y)
+    safe_click(x, y, 20)
     time.sleep(random.uniform(0.3, 0.6))
     safe_click(500, 530)
     time.sleep(random.uniform(0.2, 0.4))
