@@ -3,6 +3,7 @@ import time
 import keyboard
 import random
 import math
+from datetime import datetime
 
 stop_flag = False
 
@@ -51,6 +52,7 @@ def apply(x, y):
     time.sleep(random.uniform(0.5, 1.0))
 
 def main():
+    start = datetime.now()
     global stop_flag
     print("Starting auto-apply script. Press 'q' to quit immediately.")
     keyboard.add_hotkey('q', stop)
@@ -71,6 +73,8 @@ def main():
                 break
             time.sleep(0.5)
 
+    end = datetime.now()
+    print("Total time spent in queue: ", end-start)
     print("Script stopped.")
 
 if __name__ == "__main__":
